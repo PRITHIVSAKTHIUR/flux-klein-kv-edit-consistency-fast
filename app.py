@@ -178,7 +178,7 @@ def process_gallery_images(images):
     return pil_images
 
 
-@spaces.GPU
+@spaces.GPU(size="xlarge")
 def infer(
     images,
     prompt,
