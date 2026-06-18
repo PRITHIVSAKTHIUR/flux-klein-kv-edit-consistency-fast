@@ -1,21 +1,15 @@
-# **flux-klein-kv-edit-consistency**
+# **[Flux.2 Klein 9B — KV Consistency Edit [Fast]](https://huggingface.co/spaces/prithivMLmods/flux-klein-kv-edit-consistency-fast)**
 
-flux-klein-kv-edit-consistency is an experimental image editing application powered by the FLUX.2-klein-9b-kv model and a custom Consistency LoRA adapter. This tool is designed to apply precise, highly consistent edits to uploaded images based on natural language prompts. It allows users to execute complex transformations—such as changing weather conditions, adjusting lighting, or upscaling textures—while strictly preserving the original subject's identity, composition, and framing. The application features a lightweight, custom-built HTML/CSS/JavaScript frontend served directly via FastAPI, completely bypassing standard Gradio UI elements for a bespoke, fast, and responsive user experience. Operating entirely on CUDA-enabled GPUs, this project demonstrates advanced, consistent image-to-image manipulation using state-of-the-art diffusion models.
+Flux.2 Klein 9B — KV Consistency Edit [Fast] is an optimized, image-to-image editing suite designed around the advanced `black-forest-labs/FLUX.2-klein-9b-kv` base model. By incorporating a dedicated pipeline patch (`flux2_klein_kv.patch`) alongside the `dx8152/Flux2-Klein-9B-Consistency` LoRA adapter, this suite yields identity-preserving, context-consistent adjustments over input images in a fraction of standard rendering windows.
 
----
-
-<img width="1280" height="800" alt="Screen Shot 2026-03-27 at 18 04 20" src="https://github.com/user-attachments/assets/a5f128d0-b4f5-4d53-8384-28d6269a2d6d" />
-<img width="1280" height="800" alt="Screen Shot 2026-03-27 at 18 04 29" src="https://github.com/user-attachments/assets/d48dec72-0eb2-417f-9cb1-57fec52a2265" />
-
----
+Operating entirely on custom CUDA setups, the suite offers text-guided image manipulation—such as seasonal swaps, complex structural relighting, and high-fidelity texture enhancement—with zero reliance on external APIs.
 
 ### **Key Features**
 
-* **Consistent Image Editing:** Utilizes `black-forest-labs/FLUX.2-klein-9b-kv` paired with the `dx8152/Flux2-Klein-9B-Consistency` LoRA to perform edits that maintain structural and compositional fidelity to the source image.
-* **Custom Headless UI:** Features a completely custom, responsive web interface built with vanilla HTML/CSS/JS, served via FastAPI. It includes dynamic theme switching (Dark/Light mode), custom toast notifications, and a styled drag-and-drop uploader.
-* **Dynamic Sizing:** Automatically calculates and snaps image dimensions to optimal sizes (multiples of 8, up to 1024x1024) based on the uploaded image's aspect ratio.
-* **Advanced Inference Controls:** Provides a hidden 'Advanced Options' panel to manually adjust the Generation Seed, Inference Steps, and output Dimensions.
-* **Automated Patching:** Includes a mechanism to automatically apply necessary code patches (`flux2_klein_kv.patch`) to the `diffusers` library at runtime.
+* **KV Attention Modification:** Integrates a core structural patch directly over local `diffusers` modules via subprocess initialization to enable Key-Value consistency mechanisms.
+* **Klein-Consistency LoRA Engine:** Leverages the `Flux2-Klein-9B-Consistency` adapter at a unified weight scale ($1.0$), ensuring structural traits and composition stay fixed during inference.
+* **Intelligent Resolution Adaptation:** Parses active Gradio Gallery inputs and downscales or upscales dimensions to match native training boundaries, snapping layouts to multiples of 8.
+* **Unified ZeroGPU Workflow:** Features memory cleanup utilities (`gc.collect()` and `torch.cuda.empty_cache()`) coupled with the `@spaces.GPU` context executor to provide multi-step editing without encountering out-of-memory overheads.
 
 ### **Repository Structure**
 
@@ -29,48 +23,108 @@ flux-klein-kv-edit-consistency is an experimental image editing application powe
 ├── flux2_klein_kv.patch
 ├── LICENSE.txt
 ├── pre-requirements.txt
+├── pyproject.toml
 ├── README.md
-└── requirements.txt
+├── requirements.txt
+└── uv.lock
+
 ```
 
 ### **Installation and Requirements**
 
-To run flux-klein-kv-edit-consistency locally, you need to configure a Python environment with the following dependencies. Ensure you have a compatible CUDA-enabled GPU and a Hugging Face access token configured as an environment variable (`HF_TOKEN`).
+To run Flux.2 Klein 9B — KV Consistency Edit locally, ensure you possess an appropriate Python configuration compiled with heavy weight execution backends. A modern CUDA-enabled GPU is required.
 
-**1. Install Pre-requirements**
-Run the following command to update pip to the required version:
+This repository specifically relies on **PyTorch 2.11.0 and CUDA 13.0** (`--extra-index-url https://download.pytorch.org/whl/cu130`).
+
+#### **Running with `uv` (Recommended)**
+
+`uv` is an ultra-fast Python package and project manager written in Rust, ensuring rapid virtual environment synchronization and reproducible execution.
+
+**Step 1 — Install `uv**`
+
+* **macOS / Linux:** `curl -LsSf https://astral.sh/uv/install.sh | sh`
+* **Windows:** `powershell -c "irm https://astral.sh/uv/install.ps1 | iex"`
+
+**Step 2 — Clone the repository**
+
 ```bash
-pip install pip>=26.0.0
+git clone https://github.com/PRITHIVSAKTHIUR/flux-klein-kv-edit-consistency-fast.git
+cd flux-klein-kv-edit-consistency-fast
+
 ```
 
-**2. Install Core Requirements**
-Install the necessary machine learning and web server libraries. You can place these in a `requirements.txt` file and run `pip install -r requirements.txt`.
+**Step 3 — Initialize the project and install dependencies**
+This will automatically parse the `uv.lock` and `requirements.txt` to fetch the correct PyTorch 2.11.0 + cu130 wheels.
+
+```bash
+uv sync
+
+```
+
+**Step 4 — Run the script**
+
+```bash
+uv run app.py
+
+```
+
+#### **Standard PIP Installation**
+
+**1. Install Pre-requirements**
+Ensure your local system package manager is upgraded:
+
+```bash
+pip install pip>=26.0.0
+
+```
+
+**2. Install Core Dependencies**
+Install the primary deep learning stack, diffusion utilities, and ecosystem structures. Place these in a `requirements.txt` file and execute `pip install -r requirements.txt`.
 
 ```text
-accelerate==1.13.0
-diffusers==0.37.0
-huggingface_hub==1.5.0
-sentencepiece==0.2.1
-protobuf==3.20.3
-transformers==5.3.0
-torch==2.9.1
-fastapi
+--extra-index-url https://download.pytorch.org/whl/cu130
+
+git+https://github.com/huggingface/transformers.git@v4.57.6
+huggingface-hub
+gradio==6.16.0
+torch==2.11.0
+opencv-python
+sentencepiece
+torchvision
+torchaudio
+accelerate
+omegaconf
+termcolor
+diffusers
+kernels
+imageio
+hf_xet
+spaces
+pyyaml
 pillow
-gradio
+numpy
 peft
+ftfy
+av
 ```
 
 ### **Usage**
 
-Once your environment is set up, the dependencies are installed, and your `HF_TOKEN` is exported, you can launch the application by running the main Python script:
+After setting up your environment and ensuring your dependencies are installed, launch the application by executing the primary module script:
 
 ```bash
-export HF_TOKEN="your_huggingface_token"
 python app.py
+
 ```
 
-The script will attempt to apply the required patch to the `diffusers` library, load the heavy 9B parameter model into VRAM, and then start the web server. Access the custom UI by navigating to the local address provided in your terminal (usually `http://127.0.0.1:7860/`). Upload an image, provide an editing prompt (e.g., "Relight the image with soft golden sunset lighting"), and click "Edit Image".
+The script will trigger a safety lookup for your environment, parse `flux2_klein_kv.patch`, and hot-patch your local site-packages `diffusers` library. It will then download and cache the 9B model weights along with the consistency LoRA layers. Once initialized, a local web server interface will be exposed (typically at `http://127.0.0.1:7860/`).
+
+1. **Input Asset:** Upload one or more reference images to the Gradio input gallery. Leaving the panel completely clear switches the underlying generation path back into text-only mode.
+2. **Define Modification:** Enter your specific adjustments in the text box (e.g., *"Transform the scene into a snowy winter day"*).
+3. **Advanced Tweaks:** Expand the Advanced Settings menu to scale inference steps, lock baseline seeds, or manually enforce structural dimension ratios.
+4. **Compile:** Click **Edit Image** to launch the CUDA workspace worker thread and review the consistency-matched result.
 
 ### **License and Source**
 
-* **GitHub Repository:** [https://github.com/PRITHIVSAKTHIUR/flux-klein-kv-edit-consistency.git](https://github.com/PRITHIVSAKTHIUR/flux-klein-kv-edit-consistency.git)
+* **License:** [Apache License 2.0](https://github.com/PRITHIVSAKTHIUR/flux-klein-kv-edit-consistency-fast/blob/main/LICENSE.txt)
+* **GitHub Repository:** [https://github.com/PRITHIVSAKTHIUR/flux-klein-kv-edit-consistency-fast.git](https://github.com/PRITHIVSAKTHIUR/flux-klein-kv-edit-consistency-fast.git)
