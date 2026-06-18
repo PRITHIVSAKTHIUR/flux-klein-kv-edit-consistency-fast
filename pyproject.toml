@@ -1,0 +1,33 @@
+[project]
+name = "flux-klein-kv-edit-consistency-fast"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=1.14.0",
+    "av>=17.1.0",
+    "diffusers>=0.38.0",
+    "ftfy>=6.3.1",
+    "gradio==6.16.0",
+    "hf-xet>=1.5.1",
+    "huggingface-hub>=0.36.2",
+    "imageio>=2.37.3",
+    "kernels>=0.12.3",
+    "numpy>=2.4.6",
+    "omegaconf>=2.3.1",
+    "opencv-python>=4.13.0.92",
+    "peft>=0.19.1",
+    "pillow>=12.2.0",
+    "pyyaml>=6.0.3",
+    "sentencepiece>=0.2.1",
+    "spaces>=0.50.4",
+    "termcolor>=3.3.0",
+    "torch==2.11.0",
+    "torchaudio>=2.11.0",
+    "torchvision>=0.26.0",
+    "transformers",
+]
+
+[tool.uv.sources]
+transformers = { git = "https://github.com/huggingface/transformers.git", rev = "v4.57.6" }
