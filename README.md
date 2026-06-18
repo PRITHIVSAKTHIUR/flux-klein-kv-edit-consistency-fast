@@ -40,7 +40,7 @@ This repository specifically relies on **PyTorch 2.11.0 and CUDA 13.0** (`--extr
 
 `uv` is an ultra-fast Python package and project manager written in Rust, ensuring rapid virtual environment synchronization and reproducible execution.
 
-**Step 1 — Install `uv**`
+**Step 1 — Install `uv`**
 
 * **macOS / Linux:** `curl -LsSf https://astral.sh/uv/install.sh | sh`
 * **Windows:** `powershell -c "irm https://astral.sh/uv/install.ps1 | iex"`
