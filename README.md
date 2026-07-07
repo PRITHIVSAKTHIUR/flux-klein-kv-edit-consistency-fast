@@ -4,7 +4,7 @@ Flux.2 Klein 9B — KV Consistency Edit [Fast] is an optimized, image-to-image e
 
 Operating entirely on custom CUDA setups, the suite offers text-guided image manipulation—such as seasonal swaps, complex structural relighting, and high-fidelity texture enhancement—with zero reliance on external APIs.
 
-<img width="1758" height="1695" alt="screencapture-huggingface-co-spaces-prithivMLmods-flux-klein-kv-edit-consistency-fast-2026-06-18-12_50_09" src="https://github.com/user-attachments/assets/e7c9b4ff-1a5b-4893-98fb-505e9a738ff6" />
+<img width="1748" height="1561" alt="screencapture-huggingface-co-spaces-prithivMLmods-flux-klein-kv-edit-consistency-fast-2026-07-07-10_27_45" src="https://github.com/user-attachments/assets/f59aa706-28f1-4b35-b08e-3c0028530b30" />
 
 ### **Key Features**
 
